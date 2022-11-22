@@ -1,0 +1,208 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/members": {
+            "get": {
+                "description": "Get members array.",
+                "summary": "Get members.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Member"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/members/{memberId}": {
+            "get": {
+                "description": "Get a member w/ member id.",
+                "summary": "Get a member.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Member"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/memeber": {
+            "post": {
+                "description": "Create new member.",
+                "summary": "Create member.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/shake-shake": {
+            "post": {
+                "description": "Mix members' group and return.",
+                "summary": "shake-shake.",
+                "responses": {}
+            }
+        },
+        "/vacation": {
+            "post": {
+                "description": "Create new vacation w/ memberId.",
+                "summary": "Create vacation.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/vacations": {
+            "get": {
+                "description": "Get vacations array.",
+                "summary": "Get vacations.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Vacation"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/vacations/{vacationId}": {
+            "delete": {
+                "description": "Delete vacation w/ vacationId.",
+                "summary": "Delete vacation.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Vacation id to delete.",
+                        "name": "vacationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Member": {
+            "type": "object",
+            "properties": {
+                "departmentId": {
+                    "type": "string"
+                },
+                "groupId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "prevGroupId": {
+                    "type": "string"
+                },
+                "state": {
+                    "$ref": "#/definitions/domain.MemberState"
+                }
+            }
+        },
+        "domain.MemberState": {
+            "type": "string",
+            "enum": [
+                "unknown",
+                "normal",
+                "day-off",
+                "afternoon-off",
+                "morning-off"
+            ],
+            "x-enum-varnames": [
+                "MemberStateUnknown",
+                "MemberStateNormal",
+                "MemberStateDayOff",
+                "MemberStateAfterNoonOff",
+                "MemberStateMorningOff"
+            ]
+        },
+        "domain.Vacation": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "hours": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "string"
+                },
+                "state": {
+                    "$ref": "#/definitions/domain.VacationState"
+                },
+                "vacationEndAt": {
+                    "type": "string"
+                },
+                "vacationStartAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.VacationState": {
+            "type": "string",
+            "enum": [
+                "created",
+                "canceled"
+            ],
+            "x-enum-varnames": [
+                "VacationStateCreated",
+                "VacationStateCanceled"
+            ]
+        }
+    }
+}

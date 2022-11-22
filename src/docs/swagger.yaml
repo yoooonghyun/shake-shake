@@ -1,0 +1,138 @@
+definitions:
+  domain.Member:
+    properties:
+      departmentId:
+        type: string
+      groupId:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      prevGroupId:
+        type: string
+      state:
+        $ref: '#/definitions/domain.MemberState'
+    type: object
+  domain.MemberState:
+    enum:
+    - unknown
+    - normal
+    - day-off
+    - afternoon-off
+    - morning-off
+    type: string
+    x-enum-varnames:
+    - MemberStateUnknown
+    - MemberStateNormal
+    - MemberStateDayOff
+    - MemberStateAfterNoonOff
+    - MemberStateMorningOff
+  domain.Vacation:
+    properties:
+      createdAt:
+        type: string
+      hours:
+        type: integer
+      id:
+        type: string
+      memberId:
+        type: string
+      state:
+        $ref: '#/definitions/domain.VacationState'
+      vacationEndAt:
+        type: string
+      vacationStartAt:
+        type: string
+    type: object
+  domain.VacationState:
+    enum:
+    - created
+    - canceled
+    type: string
+    x-enum-varnames:
+    - VacationStateCreated
+    - VacationStateCanceled
+info:
+  contact: {}
+paths:
+  /members:
+    get:
+      description: Get members array.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Member'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Get members.
+  /members/{memberId}:
+    get:
+      description: Get a member w/ member id.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Member'
+        "500":
+          description: Internal Server Error
+      summary: Get a member.
+  /memeber:
+    post:
+      description: Create new member.
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create member.
+  /shake-shake:
+    post:
+      description: Mix members' group and return.
+      responses: {}
+      summary: shake-shake.
+  /vacation:
+    post:
+      description: Create new vacation w/ memberId.
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create vacation.
+  /vacations:
+    get:
+      description: Get vacations array.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Vacation'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Get vacations.
+  /vacations/{vacationId}:
+    delete:
+      description: Delete vacation w/ vacationId.
+      parameters:
+      - description: Vacation id to delete.
+        in: path
+        name: vacationId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Delete vacation.
+swagger: "2.0"
